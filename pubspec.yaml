@@ -39,26 +39,18 @@ dependencies:
     sdk: flutter
   flutter_tflite: ^1.0.1
   flutter_tts: ^3.8.5
-  # google_ml_kit: ^0.16.3
-  google_mlkit_image_labeling: ^0.10.0
-  google_mlkit_object_detection: ^0.11.0
+  # google_mlkit_image_labeling: ^0.10.0
+  # google_mlkit_object_detection: ^0.11.0
   google_mlkit_text_recognition: ^0.11.0
   image_picker: ^0.8.9
   path: ^1.8.3
   path_provider: ^2.1.2
+  speech_to_text: ^6.5.1
   toast: ^0.3.0
 
-dev_dependencies: null
-# camera: ^0.10.5+9
-# device_apps: ^2.2.0
-# flutter_launcher_icons: ^0.11.0
-# flutter_lints: ^2.0.0
-# flutter_test:
-#   sdk: flutter
-# flutter_tflite: ^1.0.1
-# flutter_tts: ^3.8.5
-# # text_to_speech: ^0.2.3
-# toast: ^0.3.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.

@@ -9,6 +9,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:math' as math;
 import 'camera.dart';
 import 'models.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
 
 class HomePage extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -21,6 +23,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  SpeechToText speechToText = SpeechToText();
+  String textSpeech = "";
   FlutterTts flutterTts = FlutterTts();
   List<dynamic> _recognitions = [];
   final List<dynamic> ans = [];
@@ -36,6 +40,36 @@ class _HomePageState extends State<HomePage> {
   double mid = 0;
   double woo = 0;
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    speechToText.stop();
+  }
+
+  void initSpeechToText() async {
+    await speechToText.initialize();
+    setState(() {});
+  }
+
+  Future<void> startListening() async {
+    FocusScope.of(context).unfocus();
+    await speechToText.listen(onResult: onSpeechToTextResult);
+    setState(() {});
+  }
+
+  Future<void> stopListening() async {
+    FocusScope.of(context).unfocus();
+    await speechToText.stop();
+  }
+
+  void onSpeechToTextResult(SpeechRecognitionResult result) {
+    setState(() {
+      textSpeech = result.recognizedWords;
+    });
+    print(textSpeech);
+  }
+
   void speak(String text) {
     flutterTts.setPitch(1.2);
     flutterTts.speak(text);
@@ -46,7 +80,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     ToastContext().init(context);
     super.initState();
-    speak("Welcome to a eye, ready for your service");
+    // initSpeechToText();
+    speak(
+        "Welcome to a eye, ready for your service. Select either Text Recognition or Object Detection. Kindly meet someone who's not visually impaired to help with navigation");
   }
 
   loadModel() async {
@@ -178,10 +214,10 @@ class _HomePageState extends State<HomePage> {
               flutterTts.setSilence(3);
               if (mid >= 165) {
                 speak("There is a ${re["detectedClass"]} on your right side");
-                  flutterTts.setSilence(3);
+                flutterTts.setSilence(3);
               } else {
                 speak("There is a ${re["detectedClass"]} on your left side");
-                  flutterTts.setSilence(3);
+                flutterTts.setSilence(3);
               }
               Toast.show("There is a ${re["detectedClass"]} ahead!!!",
                   duration: 1, gravity: 0);
